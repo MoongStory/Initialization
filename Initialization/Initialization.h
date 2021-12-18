@@ -18,15 +18,14 @@ namespace MOONG
 		public:
 			Initialization(CStringA ini_file_path, CStringA default_string);
 
-			int Read(CStringA app_name, CStringA key_name, char* output, DWORD size_output);
-			//int Read(CStringA app_name, CStringA key_name, CStringA& output, DWORD size_output);
-			//int Read(CStringA app_name, CStringA key_name, std::string& output, DWORD size_output);
+			int Read(CStringA app_name, CStringA key_name, char* output, DWORD length_output);
+			int Read(CStringA app_name, CStringA key_name, wchar_t* output, DWORD length_output);
 
 			// 0 : 성공.
 			// GetLastError() 에러 코드 : 실패.
 			int Write(CStringA app_name, CStringA key_name, CStringA value);
-			//int Write(CStringA app_name, CStringA key_name, int value);
 			//int Write(CStringW app_name, CStringW key_name, CStringW value);
+			//int Write(CStringA app_name, CStringA key_name, int value);
 			//int Write(CStringW app_name, CStringW key_name, int value);
 
 			CStringA Get_default_string();

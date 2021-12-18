@@ -1,16 +1,33 @@
 #include "Initialization.h"
 
+#include <strsafe.h>
+
 MOONG::INITIALIZATION::Initialization::Initialization(CStringA ini_file_path, CStringA default_string)
 {
 	this->Set_ini_file_path(ini_file_path);
 	this->Set_default_string(default_string);
 }
 
-int MOONG::INITIALIZATION::Initialization::Read(CStringA app_name, CStringA key_name, char* output, DWORD size_output)
+int MOONG::INITIALIZATION::Initialization::Read(CStringA app_name, CStringA key_name, char* output, DWORD length_output)
 {
-	GetPrivateProfileStringA(app_name.GetBuffer(), key_name.GetBuffer(), this->Get_default_string().GetBuffer(), output, size_output, this->Get_ini_file_path());
+	GetPrivateProfileStringA(app_name.GetBuffer(), key_name.GetBuffer(), this->Get_default_string().GetBuffer(), output, length_output, this->Get_ini_file_path());
 
 	return EXIT_SUCCESS;
+}
+
+int MOONG::INITIALIZATION::Initialization::Read(CStringA app_name, CStringA key_name, wchar_t* output, DWORD length_output)
+{
+	char* buf = new char[length_output];
+
+	this->Read(app_name, key_name, buf, length_output);
+
+	CStringW convert(buf);
+
+	delete[] buf;
+
+	StringCchCopyW(output, length_output, convert.GetBuffer());
+
+	return 0;
 }
 
 int MOONG::INITIALIZATION::Initialization::Write(CStringA app_name, CStringA key_name, CStringA value)
