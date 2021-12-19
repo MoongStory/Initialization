@@ -16,32 +16,46 @@ namespace MOONG
 		class Initialization
 		{
 		public:
-			Initialization(CStringA ini_file_path, CStringA default_string);
+			Initialization(const CStringA ini_file_path, const CStringA fail_string = "", const UINT fail_value = 0);
 
-			// TODO: 숫자 읽고 쓰는 함수도 추가.
-			int Read(CStringA app_name, CStringA key_name, char* output, DWORD length_output);
-			int Read(CStringA app_name, CStringA key_name, wchar_t* output, DWORD length_output);
-			//int Read(CStringA app_name, CStringA key_name, int);
+			// 반환 값
+			//		문자열 길이.
+			DWORD Read(CStringA app_name, CStringA key_name, char* output, DWORD length_output);
+			DWORD Read(CStringA app_name, CStringA key_name, wchar_t* output, DWORD length_output);
+
+			// 반환 값
+			//		성공 : ini 파일에서 읽어들인 값.
+			//		실패 : "Initialization" 클래스 생성 시 설정한 "fail_value" 값.
+			//				설정하지 않았다면 헤더 파일의 생성자 파라미터 초기화 값.
+			// "app_name"과 "key_name"이 존재하지만 값이 문자열로 설정되어 있을 경우 0을 반환하므로 주의할 것.
+			UINT Read(CStringA app_name, CStringA key_name);
 
 
-			// 0 : 성공.
-			// GetLastError() 에러 코드 : 실패.
-			int Write(CStringA app_name, CStringA key_name, CStringA value);
-			int Write(CStringA app_name, CStringA key_name, int value);
 
-			CStringA Get_default_string();
+			// 반환 값
+			//		성공 : 0
+			//		실패 : GetLastError() 에러 코드.
+			DWORD Write(CStringA app_name, CStringA key_name, CStringA value);
+			DWORD Write(CStringA app_name, CStringA key_name, int value);
+
+
+
+			CStringA Get_fail_string();
+			UINT Get_fail_value();
 
 		private:
 			CStringA Get_ini_file_path();
 			void Set_ini_file_path(CStringA ini_file_path);
 
-			void Set_default_string(CStringA default_string);
+			void Set_fail_string(CStringA fail_string);
+			void Set_fail_value(const UINT fail_value);
 			
 		public:
 
 		private:
 			CStringA ini_file_path_;
-			CStringA default_string_;
+			CStringA fail_string_;
+			UINT fail_value_;
 		};
 	}
 }

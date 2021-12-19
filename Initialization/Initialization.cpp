@@ -2,25 +2,23 @@
 
 #include <strsafe.h>
 
-MOONG::INITIALIZATION::Initialization::Initialization(CStringA ini_file_path, CStringA default_string)
+MOONG::INITIALIZATION::Initialization::Initialization(const CStringA ini_file_path, const CStringA fail_string, const UINT fail_value)
 {
 	this->Set_ini_file_path(ini_file_path);
-	this->Set_default_string(default_string);
+	this->Set_fail_string(fail_string);
+	this->Set_fail_value(fail_value);
 }
 
-int MOONG::INITIALIZATION::Initialization::Read(CStringA app_name, CStringA key_name, char* output, DWORD length_output)
+DWORD MOONG::INITIALIZATION::Initialization::Read(CStringA app_name, CStringA key_name, char* output, DWORD length_output)
 {
-	GetPrivateProfileStringA(app_name.GetBuffer(), key_name.GetBuffer(), this->Get_default_string().GetBuffer(), output, length_output, this->Get_ini_file_path());
-
-
-	return EXIT_SUCCESS;
+	return GetPrivateProfileStringA(app_name.GetBuffer(), key_name.GetBuffer(), this->Get_fail_string().GetBuffer(), output, length_output, this->Get_ini_file_path().GetBuffer());
 }
 
-int MOONG::INITIALIZATION::Initialization::Read(CStringA app_name, CStringA key_name, wchar_t* output, DWORD length_output)
+DWORD MOONG::INITIALIZATION::Initialization::Read(CStringA app_name, CStringA key_name, wchar_t* output, DWORD length_output)
 {
 	char* buf = new char[length_output];
 
-	this->Read(app_name, key_name, buf, length_output);
+	DWORD return_value = this->Read(app_name, key_name, buf, length_output);
 
 	CStringW convert(buf);
 
@@ -28,10 +26,15 @@ int MOONG::INITIALIZATION::Initialization::Read(CStringA app_name, CStringA key_
 
 	StringCchCopyW(output, length_output, convert.GetBuffer());
 
-	return 0;
+	return return_value;
 }
 
-int MOONG::INITIALIZATION::Initialization::Write(CStringA app_name, CStringA key_name, CStringA value)
+UINT MOONG::INITIALIZATION::Initialization::Read(CStringA app_name, CStringA key_name)
+{
+	return GetPrivateProfileIntA(app_name.GetBuffer(), key_name.GetBuffer(), this->Get_fail_value(), this->Get_ini_file_path().GetBuffer());
+}
+
+DWORD MOONG::INITIALIZATION::Initialization::Write(CStringA app_name, CStringA key_name, CStringA value)
 {
 	if (WritePrivateProfileStringA(app_name.GetBuffer(), key_name.GetBuffer(), value.GetBuffer(), this->Get_ini_file_path().GetBuffer()) == 0)
 	{
@@ -41,15 +44,15 @@ int MOONG::INITIALIZATION::Initialization::Write(CStringA app_name, CStringA key
 	return EXIT_SUCCESS;
 }
 
-int MOONG::INITIALIZATION::Initialization::Write(CStringA app_name, CStringA key_name, int value)
+DWORD MOONG::INITIALIZATION::Initialization::Write(CStringA app_name, CStringA key_name, int value)
 {
 	CStringA convert_string;
 	convert_string.Format("%d", value);
 
-	this->Write(app_name, key_name, convert_string.GetBuffer());
-
-	return EXIT_SUCCESS;
+	return this->Write(app_name, key_name, convert_string.GetBuffer());
 }
+
+
 
 CStringA MOONG::INITIALIZATION::Initialization::Get_ini_file_path()
 {
@@ -61,12 +64,22 @@ void MOONG::INITIALIZATION::Initialization::Set_ini_file_path(CStringA ini_file_
 	this->ini_file_path_ = ini_file_path;
 }
 
-CStringA MOONG::INITIALIZATION::Initialization::Get_default_string()
+CStringA MOONG::INITIALIZATION::Initialization::Get_fail_string()
 {
-	return this->default_string_;
+	return this->fail_string_;
 }
 
-void MOONG::INITIALIZATION::Initialization::Set_default_string(CStringA default_string)
+UINT MOONG::INITIALIZATION::Initialization::Get_fail_value()
 {
-	this->default_string_ = default_string;
+	return this->fail_value_;
+}
+
+void MOONG::INITIALIZATION::Initialization::Set_fail_string(CStringA fail_string)
+{
+	this->fail_string_ = fail_string;
+}
+
+void MOONG::INITIALIZATION::Initialization::Set_fail_value(const UINT fail_value)
+{
+	this->fail_value_ = fail_value;
 }
