@@ -12,6 +12,7 @@ int MOONG::INITIALIZATION::Initialization::Read(CStringA app_name, CStringA key_
 {
 	GetPrivateProfileStringA(app_name.GetBuffer(), key_name.GetBuffer(), this->Get_default_string().GetBuffer(), output, length_output, this->Get_ini_file_path());
 
+
 	return EXIT_SUCCESS;
 }
 
@@ -36,6 +37,16 @@ int MOONG::INITIALIZATION::Initialization::Write(CStringA app_name, CStringA key
 	{
 		return GetLastError();
 	}
+
+	return EXIT_SUCCESS;
+}
+
+int MOONG::INITIALIZATION::Initialization::Write(CStringA app_name, CStringA key_name, int value)
+{
+	CStringA convert_string;
+	convert_string.Format("%d", value);
+
+	this->Write(app_name, key_name, convert_string.GetBuffer());
 
 	return EXIT_SUCCESS;
 }

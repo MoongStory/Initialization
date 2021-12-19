@@ -9,21 +9,25 @@ const char* const default_string_char = "value is non exist char";
 
 const char* const app_name_char = "app name char";
 const char* const key_name_char = "key name char";
-const char* const vlaue_char = "temp string char";
+const char* const value_char = "temp string char";
 
 const std::string ini_file_name_string = "./test.ini";
 const std::string default_string_string = "value is non exist string";
 
 const std::string app_name_string = "app name string";
 const std::string key_name_string = "key name string";
-const std::string vlaue_string = "temp string string";
+const std::string value_string = "temp string string";
 
 const wchar_t* const ini_file_name_wchar_t = L"./test.ini";
 const wchar_t* const default_string_wchar_t = L"value is non exist wchar_t";
 
 const wchar_t* const app_name_wchar_t = L"app name wchar_t";
 const wchar_t* const key_name_wchar_t = L"key name wchar_t";
-const wchar_t* const vlaue_wchar_t = L"temp string wchar_t";
+const wchar_t* const value_wchar_t = L"temp string wchar_t";
+
+const char* const app_name_int = "app name int";
+const char* const key_name_int = "key name int";
+const int value_int = 20211219;
 
 int main()
 {
@@ -33,7 +37,7 @@ int main()
 	wchar_t buf_wchar_t[1024] = { 0 };
 
 #pragma region param char return char
-	std::cout << "return code : " << initializationA.Write(app_name_char, key_name_char, vlaue_char) << std::endl;
+	std::cout << "return code : " << initializationA.Write(app_name_char, key_name_char, value_char) << std::endl;
 
 	initializationA.Read(app_name_char, key_name_char, buf_char, _countof(buf_char));
 	if (initializationA.Get_default_string().Compare(buf_char) != 0)
@@ -57,7 +61,7 @@ int main()
 #pragma endregion param char return char
 
 #pragma region param string return char
-	std::cout << "return code : " << initializationA.Write(app_name_string.c_str(), key_name_string.c_str(), vlaue_string.c_str()) << std::endl;
+	std::cout << "return code : " << initializationA.Write(app_name_string.c_str(), key_name_string.c_str(), value_string.c_str()) << std::endl;
 
 	initializationA.Read(app_name_string.c_str(), key_name_string.c_str(), buf_char, _countof(buf_char));
 	if (initializationA.Get_default_string().Compare(buf_char) != 0)
@@ -81,7 +85,7 @@ int main()
 #pragma endregion param string return char
 
 #pragma region param wchar_t return char
-	std::cout << "return code : " << initializationA.Write(app_name_wchar_t, key_name_wchar_t, vlaue_wchar_t) << std::endl;
+	std::cout << "return code : " << initializationA.Write(app_name_wchar_t, key_name_wchar_t, value_wchar_t) << std::endl;
 
 	initializationA.Read(app_name_wchar_t, key_name_wchar_t, buf_char, _countof(buf_char));
 	if (initializationA.Get_default_string().Compare(buf_char) != 0)
@@ -105,7 +109,7 @@ int main()
 #pragma endregion char
 
 #pragma region param char return wchar_t
-	std::cout << "return code : " << initializationA.Write(app_name_char, key_name_char, vlaue_char) << std::endl;
+	std::cout << "return code : " << initializationA.Write(app_name_char, key_name_char, value_char) << std::endl;
 
 	initializationA.Read(app_name_char, key_name_char, buf_wchar_t, _countof(buf_wchar_t));
 	CStringA temp(buf_wchar_t);
@@ -129,6 +133,10 @@ int main()
 		std::cout << "param char return wchar_t [값이 없음. 예외처리 필요.]" << std::endl;
 	}
 #pragma endregion param char return wchar_t
+
+#pragma region param int
+	initializationA.Write(app_name_int, key_name_int, value_int);
+#pragma endregion param int
 
 	return EXIT_SUCCESS;
 }
