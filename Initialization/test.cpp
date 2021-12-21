@@ -242,5 +242,33 @@ int main()
 	}
 #pragma endregion param int
 
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+
+#pragma region set file path
+	std::cout << "write return code : " << initializationA.Write("./temp.ini", app_name_int, key_name_int, 777) << std::endl;
+	std::cout << "write return code : " << initializationA.Write("./temp.ini", app_name_char, key_name_char, "my input") << std::endl;
+
+	std::cout << "read return code (정상인 경우) : " << initializationA.Read("./temp.ini", app_name_char, key_name_char, buf_char, _countof(buf_char)) << std::endl;
+	if (initializationA.Get_fail_string().Compare(buf_char) != 0)
+	{
+		std::cout << "param wchar_t return char [" << buf_char << "]" << std::endl;
+	}
+	else
+	{
+		std::cout << "param wchar_t return char [" << buf_char << "] 예외 처리 필요" << std::endl;
+	}
+
+	if (initializationA.Read("./temp.ini", app_name_int, key_name_int) == initializationA.Get_fail_value())
+	{
+		std::cout << "read number return (정상인 경우) : 예외처리 필요." << std::endl;
+	}
+	else
+	{
+		std::cout << "read number return (정상인 경우) : " << initializationA.Read("./temp.ini", app_name_int, key_name_int) << std::endl;
+	}
+#pragma endregion set file path
+
 	return EXIT_SUCCESS;
 }
