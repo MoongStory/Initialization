@@ -2,7 +2,7 @@
 
 #include <strsafe.h>
 
-MOONG::INITIALIZATION::Initialization::Initialization(const CStringA ini_file_path, const CStringA fail_string, const UINT fail_value)
+MOONG::INITIALIZATION::Initialization::Initialization(const CStringA ini_file_path, const CStringA fail_string, const unsigned int fail_value)
 {
 	this->Set_ini_file_path(ini_file_path);
 	this->Set_fail_string(fail_string);
@@ -71,12 +71,12 @@ DWORD MOONG::INITIALIZATION::Initialization::Read(CStringA app_name, CStringA ke
 	return this->Read(this->Get_ini_file_path(), app_name, key_name, output, length_output);
 }
 
-UINT MOONG::INITIALIZATION::Initialization::Read(CStringA file_path, CStringA app_name, CStringA key_name)
+unsigned int MOONG::INITIALIZATION::Initialization::Read(CStringA file_path, CStringA app_name, CStringA key_name)
 {
 	return GetPrivateProfileIntA(app_name.GetBuffer(), key_name.GetBuffer(), this->Get_fail_value(), file_path.GetBuffer());
 }
 
-UINT MOONG::INITIALIZATION::Initialization::Read(CStringA app_name, CStringA key_name)
+unsigned int MOONG::INITIALIZATION::Initialization::Read(CStringA app_name, CStringA key_name)
 {
 	return this->Read(this->Get_ini_file_path(), app_name, key_name);
 }
@@ -98,7 +98,7 @@ CStringA MOONG::INITIALIZATION::Initialization::Get_fail_string()
 	return this->fail_string_;
 }
 
-UINT MOONG::INITIALIZATION::Initialization::Get_fail_value()
+unsigned int MOONG::INITIALIZATION::Initialization::Get_fail_value()
 {
 	return this->fail_value_;
 }
@@ -108,7 +108,7 @@ void MOONG::INITIALIZATION::Initialization::Set_fail_string(CStringA fail_string
 	this->fail_string_ = fail_string;
 }
 
-void MOONG::INITIALIZATION::Initialization::Set_fail_value(const UINT fail_value)
+void MOONG::INITIALIZATION::Initialization::Set_fail_value(const unsigned int fail_value)
 {
 	this->fail_value_ = fail_value;
 }

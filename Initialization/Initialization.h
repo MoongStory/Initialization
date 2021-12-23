@@ -16,7 +16,7 @@ namespace MOONG
 		class Initialization
 		{
 		public:
-			Initialization(const CStringA ini_file_path, const CStringA fail_string = "", const UINT fail_value = 0);
+			Initialization(const CStringA ini_file_path, const CStringA fail_string = "", const unsigned int fail_value = 0);
 
 			// 반환 값
 			//		성공 : 0
@@ -42,27 +42,27 @@ namespace MOONG
 			//		실패 : "Initialization" 클래스 생성 시 설정한 "fail_value" 값.
 			//				설정하지 않았다면 헤더 파일의 생성자 파라미터 초기화 값.
 			// "app_name"과 "key_name"이 존재하지만 값이 문자열로 설정되어 있을 경우 0을 반환하므로 주의할 것.
-			UINT Read(CStringA file_path, CStringA app_name, CStringA key_name);
-			UINT Read(CStringA app_name, CStringA key_name);
+			unsigned int Read(CStringA file_path, CStringA app_name, CStringA key_name);
+			unsigned int Read(CStringA app_name, CStringA key_name);
 
 
 
 			CStringA Get_fail_string();
-			UINT Get_fail_value();
+			unsigned int Get_fail_value();
 
 		private:
 			CStringA Get_ini_file_path();
 			void Set_ini_file_path(CStringA ini_file_path);
 
 			void Set_fail_string(CStringA fail_string);
-			void Set_fail_value(const UINT fail_value);
+			void Set_fail_value(const unsigned int fail_value);
 			
 		public:
 
 		private:
 			CStringA ini_file_path_;
 			CStringA fail_string_;
-			UINT fail_value_;
+			unsigned int fail_value_;
 		};
 	}
 }
