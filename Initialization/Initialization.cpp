@@ -32,7 +32,7 @@ DWORD MOONG::INITIALIZATION::Initialization::Write(CStringA file_path, CStringA 
 
 DWORD MOONG::INITIALIZATION::Initialization::Read(CStringA file_path, CStringA app_name, CStringA key_name, char* output, DWORD length_output) const
 {
-	return GetPrivateProfileStringA(app_name.GetBuffer(), key_name.GetBuffer(), this->Get_fail_string().GetBuffer(), output, length_output, file_path.GetBuffer());
+	return GetPrivateProfileStringA(app_name.GetBuffer(), key_name.GetBuffer(), this->Get_fail_string().GetString(), output, length_output, file_path.GetBuffer());
 }
 
 DWORD MOONG::INITIALIZATION::Initialization::Read(CStringA file_path, CStringA app_name, CStringA key_name, wchar_t* output, DWORD length_output) const
@@ -57,7 +57,7 @@ unsigned int MOONG::INITIALIZATION::Initialization::Read(CStringA file_path, CSt
 
 
 
-CStringA MOONG::INITIALIZATION::Initialization::Get_fail_string() const
+const CStringA MOONG::INITIALIZATION::Initialization::Get_fail_string() const
 {
 	return this->fail_string_;
 }
