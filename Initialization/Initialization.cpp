@@ -45,7 +45,7 @@ DWORD MOONG::INITIALIZATION::Initialization::Read(const CStringA file_path, cons
 
 	delete[] buf;
 
-	StringCchCopyW(output, length_output, convert.GetBuffer());
+	StringCchCopyW(output, length_output, convert.GetString());
 
 	return return_value;
 }
