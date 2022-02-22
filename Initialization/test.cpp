@@ -17,13 +17,6 @@ const std::string app_name_string = "app name string";
 const std::string key_name_string = "key name string";
 const std::string value_string = "temp string string";
 
-const wchar_t* const ini_file_name_wchar_t = L"./test.ini";
-const wchar_t* const fail_string_wchar_t = L"value is non exist wchar_t";
-
-const wchar_t* const app_name_wchar_t = L"app name wchar_t";
-const wchar_t* const key_name_wchar_t = L"key name wchar_t";
-const wchar_t* const value_wchar_t = L"temp string wchar_t";
-
 const char* const app_name_int = "app name int";
 const char* const key_name_int = "key name int";
 const int value_int = 20211219;
@@ -37,13 +30,13 @@ int main()
 
 	char buf_char[1024] = { 0 };
 	wchar_t buf_wchar_t[1024] = { 0 };
-	CStringA convert_wchar_to_char;
+	std::string convert_wchar_to_char;
 
 #pragma region param char return char
 	std::cout << "write return code : " << initializationA.Write(ini_file_name_char, app_name_char, key_name_char, value_char) << std::endl;
 
-	std::cout << "read return code (정상인 경우) : " << initializationA.Read(ini_file_name_char, app_name_char, key_name_char, buf_char, _countof(buf_char)) << std::endl;
-	if (initializationA.Get_fail_string().Compare(buf_char) != 0)
+	std::cout << "read return code (정상인 경우, 읽어들인 문자열의 길이) : " << initializationA.Read(ini_file_name_char, app_name_char, key_name_char, buf_char, _countof(buf_char)) << std::endl;
+	if (initializationA.getFailString().compare(buf_char) != 0)
 	{
 		std::cout << "param char return char [" << buf_char << "]" << std::endl;
 	}
@@ -55,7 +48,7 @@ int main()
 	std::cout << std::endl;
 
 	std::cout << "read return code (섹션 또는 항목이 없는 경우) : " << initializationA.Read(ini_file_name_char, app_name_char, "key name1", buf_char, _countof(buf_char)) << std::endl;
-	if (initializationA.Get_fail_string().Compare(buf_char) != 0)
+	if (initializationA.getFailString().compare(buf_char) != 0)
 	{
 		std::cout << "param char return char [" << buf_char << "]" << std::endl;
 	}
@@ -67,7 +60,7 @@ int main()
 	std::cout << std::endl;
 
 	std::cout << "read return code (숫자로 설정 된 값 읽은 경우) : " << initializationA.Read(ini_file_name_char, app_name_int, key_name_int, buf_char, _countof(buf_char)) << std::endl;
-	if (initializationA.Get_fail_string().Compare(buf_char) != 0)
+	if (initializationA.getFailString().compare(buf_char) != 0)
 	{
 		std::cout << "param char return char [" << buf_char << "]" << std::endl;
 	}
@@ -84,8 +77,8 @@ int main()
 #pragma region param string return char
 	std::cout << "write return code : " << initializationA.Write(ini_file_name_char, app_name_string.c_str(), key_name_string.c_str(), value_string.c_str()) << std::endl;
 
-	std::cout << "read return code : (정상인 경우) " << initializationA.Read(ini_file_name_char, app_name_string.c_str(), key_name_string.c_str(), buf_char, _countof(buf_char)) << std::endl;
-	if (initializationA.Get_fail_string().Compare(buf_char) != 0)
+	std::cout << "read return code : (정상인 경우, 읽어들인 문자열의 길이) " << initializationA.Read(ini_file_name_char, app_name_string.c_str(), key_name_string.c_str(), buf_char, _countof(buf_char)) << std::endl;
+	if (initializationA.getFailString().compare(buf_char) != 0)
 	{
 		std::cout << "param string return char [" << buf_char << "]" << std::endl;
 	}
@@ -97,7 +90,7 @@ int main()
 	std::cout << std::endl;
 
 	std::cout << "read return code (섹션 또는 항목이 없는 경우) : " << initializationA.Read(ini_file_name_char, app_name_string.c_str(), "key name1", buf_char, _countof(buf_char)) << std::endl;
-	if (initializationA.Get_fail_string().Compare(buf_char) != 0)
+	if (initializationA.getFailString().compare(buf_char) != 0)
 	{
 		std::cout << "param string return char [" << buf_char << "]" << std::endl;
 	}
@@ -111,42 +104,19 @@ int main()
 	std::cout << std::endl;
 	std::cout << std::endl;
 
-#pragma region param wchar_t return char
-	std::cout << "write return code : " << initializationA.Write(ini_file_name_char, app_name_wchar_t, key_name_wchar_t, value_wchar_t) << std::endl;
-
-	std::cout << "read return code (정상인 경우) : " << initializationA.Read(ini_file_name_char, app_name_wchar_t, key_name_wchar_t, buf_char, _countof(buf_char)) << std::endl;
-	if (initializationA.Get_fail_string().Compare(buf_char) != 0)
-	{
-		std::cout << "param wchar_t return char [" << buf_char << "]" << std::endl;
-	}
-	else
-	{
-		std::cout << "param wchar_t return char [" << buf_char << "] 예외 처리 필요" << std::endl;
-	}
-
-	std::cout << std::endl;
-
-	std::cout << "read return code (섹션 또는 항목이 없는 경우) : " << initializationA.Read(ini_file_name_char, app_name_wchar_t, "key name1", buf_char, _countof(buf_char)) << std::endl;
-	if (initializationA.Get_fail_string().Compare(buf_char) != 0)
-	{
-		std::cout << "param wchar_t return char [" << buf_char << "]" << std::endl;
-	}
-	else
-	{
-		std::cout << "param wchar_t return char [" << buf_char << "] 예외 처리 필요" << std::endl;
-	}
-#pragma endregion char
-
-	std::cout << std::endl;
-	std::cout << std::endl;
-	std::cout << std::endl;
-
 #pragma region param char return wchar_t
 	std::cout << "write return code : " << initializationA.Write(ini_file_name_char, app_name_char, key_name_char, value_char) << std::endl;
 
-	std::cout << "read return code (정상인 경우) : " << initializationA.Read(ini_file_name_char, app_name_char, key_name_char, buf_wchar_t, _countof(buf_wchar_t)) << std::endl;
-	convert_wchar_to_char = buf_wchar_t;
-	if (initializationA.Get_fail_string() != convert_wchar_to_char)
+	std::cout << "read return code (정상인 경우, 읽어들인 문자열의 길이) : " << initializationA.Read(ini_file_name_char, app_name_char, key_name_char, buf_wchar_t, _countof(buf_wchar_t)) << std::endl;
+
+	size_t new_size = (wcslen(buf_wchar_t) + 1) * 2;
+	char* nstring = new char[new_size];
+	size_t convertedChars = 0;
+	wcstombs_s(&convertedChars, nstring, new_size, buf_wchar_t, _TRUNCATE);
+
+	convert_wchar_to_char = nstring;
+	delete[] nstring;
+	if (initializationA.getFailString() != convert_wchar_to_char)
 	{
 		std::cout << "param char return wchar_t [" << convert_wchar_to_char << "]" << std::endl;
 	}
@@ -158,8 +128,15 @@ int main()
 	std::cout << std::endl;
 
 	std::cout << "read return code (섹션 또는 항목이 없는 경우) : " << initializationA.Read(ini_file_name_char, app_name_char, "key name1", buf_wchar_t, _countof(buf_wchar_t)) << std::endl;
-	convert_wchar_to_char = buf_wchar_t;
-	if (initializationA.Get_fail_string() != convert_wchar_to_char)
+	
+	new_size = (wcslen(buf_wchar_t) + 1) * 2;
+	nstring = new char[new_size];
+	convertedChars = 0;
+	wcstombs_s(&convertedChars, nstring, new_size, buf_wchar_t, _TRUNCATE);
+
+	convert_wchar_to_char = nstring;
+	delete[] nstring;
+	if (initializationA.getFailString() != convert_wchar_to_char)
 	{
 		std::cout << "param char return wchar_t [" << convert_wchar_to_char << "]" << std::endl;
 	}
@@ -173,42 +150,10 @@ int main()
 	std::cout << std::endl;
 	std::cout << std::endl;
 
-#pragma region param wchar_t return wchar_t
-	std::cout << "write return code : " << initializationA.Write(ini_file_name_char, app_name_wchar_t, key_name_wchar_t, value_wchar_t) << std::endl;
-
-	std::cout << "read return code (정상인 경우) : " << initializationA.Read(ini_file_name_char, app_name_wchar_t, key_name_wchar_t, buf_wchar_t, _countof(buf_wchar_t)) << std::endl;
-	convert_wchar_to_char = buf_wchar_t;
-	if (initializationA.Get_fail_string() != convert_wchar_to_char)
-	{
-		std::cout << "param wchar_t return wchar_t [" << convert_wchar_to_char << "]" << std::endl;
-	}
-	else
-	{
-		std::cout << "param wchar_t return wchar_t [" << convert_wchar_to_char << "] 예외 처리 필요" << std::endl;
-	}
-
-	std::cout << std::endl;
-
-	std::cout << "read return code (섹션 또는 항목이 없는 경우) : " << initializationA.Read(ini_file_name_char, app_name_wchar_t, L"key name1", buf_wchar_t, _countof(buf_wchar_t)) << std::endl;
-	convert_wchar_to_char = buf_wchar_t;
-	if (initializationA.Get_fail_string() != convert_wchar_to_char)
-	{
-		std::cout << "param wchar_t return wchar_t [" << convert_wchar_to_char << "]" << std::endl;
-	}
-	else
-	{
-		std::cout << "param wchar_t return wchar_t [" << convert_wchar_to_char << "] 예외 처리 필요" << std::endl;
-	}
-#pragma endregion param wchar_t return wchar_t
-
-	std::cout << std::endl;
-	std::cout << std::endl;
-	std::cout << std::endl;
-
 #pragma region param int
 	std::cout << "write return code : " << initializationA.Write(ini_file_name_char, app_name_int, key_name_int, value_int) << std::endl;
 
-	if (initializationA.Read(ini_file_name_char, app_name_int, key_name_int) == initializationA.Get_fail_value())
+	if (initializationA.Read(ini_file_name_char, app_name_int, key_name_int) == initializationA.getFailValue())
 	{
 		std::cout << "read number return (정상인 경우) : 예외처리 필요." << std::endl;
 	}
@@ -219,7 +164,7 @@ int main()
 
 	std::cout << std::endl;
 
-	if (initializationA.Read(ini_file_name_char, app_name_int, "key name1") == initializationA.Get_fail_value())
+	if (initializationA.Read(ini_file_name_char, app_name_int, "key name1") == initializationA.getFailValue())
 	{
 		std::cout << "read number return (섹션 또는 항목이 없는 경우) : " << initializationA.Read(ini_file_name_char, app_name_int, "key name1") << " (예외처리 필요)" << std::endl;
 	}
@@ -230,7 +175,7 @@ int main()
 
 	std::cout << std::endl;
 
-	if (initializationA.Read(ini_file_name_char, app_name_char, key_name_char) == initializationA.Get_fail_value())
+	if (initializationA.Read(ini_file_name_char, app_name_char, key_name_char) == initializationA.getFailValue())
 	{
 		std::cout << "read number return (섹션 또는 항목이 없는 경우) : " << initializationA.Read(ini_file_name_char, app_name_char, key_name_char) << " (예외처리 필요)" << std::endl;
 	}
@@ -249,7 +194,7 @@ int main()
 	std::cout << "write return code : " << initializationA.Write("./temp.ini", app_name_char, key_name_char, "my input") << std::endl;
 
 	std::cout << "read return code (정상인 경우) : " << initializationA.Read("./temp.ini", app_name_char, key_name_char, buf_char, _countof(buf_char)) << std::endl;
-	if (initializationA.Get_fail_string().Compare(buf_char) != 0)
+	if (initializationA.getFailString().compare(buf_char) != 0)
 	{
 		std::cout << "param wchar_t return char [" << buf_char << "]" << std::endl;
 	}
@@ -258,7 +203,7 @@ int main()
 		std::cout << "param wchar_t return char [" << buf_char << "] 예외 처리 필요" << std::endl;
 	}
 
-	if (initializationA.Read("./temp.ini", app_name_int, key_name_int) == initializationA.Get_fail_value())
+	if (initializationA.Read("./temp.ini", app_name_int, key_name_int) == initializationA.getFailValue())
 	{
 		std::cout << "read number return (정상인 경우) : 예외처리 필요." << std::endl;
 	}

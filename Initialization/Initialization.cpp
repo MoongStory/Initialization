@@ -2,17 +2,17 @@
 
 #include <strsafe.h>
 
-MOONG::INITIALIZATION::Initialization::Initialization(const CStringA fail_string, const unsigned int fail_value)
+MOONG::INITIALIZATION::Initialization::Initialization(const std::string fail_string, const unsigned int fail_value)
 {
-	this->Set_fail_string(fail_string);
-	this->Set_fail_value(fail_value);
+	this->setFailString(fail_string);
+	this->setFailValue(fail_value);
 }
 
 
 
-DWORD MOONG::INITIALIZATION::Initialization::Write(const CStringA file_path, const CStringA app_name, const CStringA key_name, const CStringA value) const
+DWORD MOONG::INITIALIZATION::Initialization::Write(const std::string file_path, const std::string app_name, const std::string key_name, const std::string value) const
 {
-	if (WritePrivateProfileStringA(app_name.GetString(), key_name.GetString(), value.GetString(), file_path.GetString()) == 0)
+	if (WritePrivateProfileStringA(app_name.c_str(), key_name.c_str(), value.c_str(), file_path.c_str()) == 0)
 	{
 		return GetLastError();
 	}
@@ -20,59 +20,58 @@ DWORD MOONG::INITIALIZATION::Initialization::Write(const CStringA file_path, con
 	return EXIT_SUCCESS;
 }
 
-DWORD MOONG::INITIALIZATION::Initialization::Write(const CStringA file_path, const CStringA app_name, const CStringA key_name, int value) const
+DWORD MOONG::INITIALIZATION::Initialization::Write(const std::string file_path, const std::string app_name, const std::string key_name, int value) const
 {
-	CStringA convert_string;
-	convert_string.Format("%d", value);
+	char convert_string[256] = { 0 };
+	_itoa_s(value, convert_string, _countof(convert_string), 10);
 
 	return this->Write(file_path, app_name, key_name, convert_string);
 }
 
 
 
-DWORD MOONG::INITIALIZATION::Initialization::Read(const CStringA file_path, const CStringA app_name, const CStringA key_name, char* output, DWORD length_output) const
+DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string file_path, const std::string app_name, const std::string key_name, char* output, DWORD length_output) const
 {
-	return GetPrivateProfileStringA(app_name.GetString(), key_name.GetString(), this->Get_fail_string().GetString(), output, length_output, file_path.GetString());
+	return GetPrivateProfileStringA(app_name.c_str(), key_name.c_str(), this->getFailString().c_str(), output, length_output, file_path.c_str());
 }
 
-DWORD MOONG::INITIALIZATION::Initialization::Read(const CStringA file_path, const CStringA app_name, const CStringA key_name, wchar_t* output, DWORD length_output) const
+DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string file_path, const std::string app_name, const std::string key_name, wchar_t* output, DWORD length_output) const
 {
 	char* buf = new char[length_output];
 
 	DWORD return_value = this->Read(file_path, app_name, key_name, buf, length_output);
 
-	CStringW convert(buf);
+	size_t convertedChars = 0;
+	mbstowcs_s(&convertedChars, output, length_output, buf, _TRUNCATE);
 
 	delete[] buf;
-
-	StringCchCopyW(output, length_output, convert.GetString());
 
 	return return_value;
 }
 
-unsigned int MOONG::INITIALIZATION::Initialization::Read(const CStringA file_path, const CStringA app_name, const CStringA key_name) const
+unsigned int MOONG::INITIALIZATION::Initialization::Read(const std::string file_path, const std::string app_name, const std::string key_name) const
 {
-	return GetPrivateProfileIntA(app_name.GetString(), key_name.GetString(), this->Get_fail_value(), file_path.GetString());
+	return GetPrivateProfileIntA(app_name.c_str(), key_name.c_str(), this->getFailValue(), file_path.c_str());
 }
 
 
 
-const CStringA MOONG::INITIALIZATION::Initialization::Get_fail_string() const
+const std::string MOONG::INITIALIZATION::Initialization::getFailString() const
 {
 	return this->fail_string_;
 }
 
-unsigned int MOONG::INITIALIZATION::Initialization::Get_fail_value() const
+unsigned int MOONG::INITIALIZATION::Initialization::getFailValue() const
 {
 	return this->fail_value_;
 }
 
-void MOONG::INITIALIZATION::Initialization::Set_fail_string(const CStringA fail_string)
+void MOONG::INITIALIZATION::Initialization::setFailString(const std::string fail_string)
 {
 	this->fail_string_ = fail_string;
 }
 
-void MOONG::INITIALIZATION::Initialization::Set_fail_value(const unsigned int fail_value)
+void MOONG::INITIALIZATION::Initialization::setFailValue(const unsigned int fail_value)
 {
 	this->fail_value_ = fail_value;
 }
