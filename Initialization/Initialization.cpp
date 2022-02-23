@@ -1,5 +1,6 @@
 #include "Initialization.h"
 
+#include <sstream>
 #include <strsafe.h>
 
 MOONG::INITIALIZATION::Initialization::Initialization(const std::string fail_string, const unsigned int fail_value)
@@ -22,10 +23,10 @@ DWORD MOONG::INITIALIZATION::Initialization::Write(const std::string file_path, 
 
 DWORD MOONG::INITIALIZATION::Initialization::Write(const std::string file_path, const std::string app_name, const std::string key_name, int value) const
 {
-	char convert_string[256] = { 0 };
-	_itoa_s(value, convert_string, _countof(convert_string), 10);
+	std::ostringstream convert_string;
+	convert_string << value;
 
-	return this->Write(file_path, app_name, key_name, convert_string);
+	return this->Write(file_path, app_name, key_name, convert_string.str());
 }
 
 
