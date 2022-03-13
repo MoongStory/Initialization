@@ -30,7 +30,11 @@ namespace MOONG
 			// 반환 값
 			//		문자열 길이.
 			DWORD Read(const std::string app_name, const std::string key_name, char* output, DWORD length_output, const std::string file_path) const;
+			DWORD Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, char* output, DWORD length_output, const std::string file_path) const;
 			DWORD Read(const std::string app_name, const std::string key_name, wchar_t* output, DWORD length_output, const std::string file_path) const;
+			DWORD Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, wchar_t* output, DWORD length_output, const std::string file_path) const;
+			DWORD Read(const std::string app_name, const std::string key_name, std::string& output, DWORD length_output, const std::string file_path) const;
+			DWORD Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, std::string& output, DWORD length_output, const std::string file_path) const;
 
 			// 반환 값
 			//		성공 : ini 파일에서 읽어들인 값.
@@ -38,6 +42,7 @@ namespace MOONG
 			//				설정하지 않았다면 헤더 파일의 생성자 파라미터 초기화 값.
 			// "app_name"과 "key_name"이 존재하지만 값이 문자열로 설정되어 있을 경우 0을 반환하므로 주의할 것.
 			unsigned int Read(const std::string app_name, const std::string key_name, const std::string file_path) const;
+			unsigned int Read(const std::string app_name, const std::string key_name, const int default_value_on_failure, const std::string file_path) const;
 
 
 
@@ -51,6 +56,7 @@ namespace MOONG
 		public:
 
 		private:
+			// TODO: 변수 이름, 게터, 세터 이름 변경.
 			std::string fail_string_;
 			unsigned int fail_value_;
 		};
