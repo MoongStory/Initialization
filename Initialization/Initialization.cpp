@@ -11,7 +11,7 @@ MOONG::INITIALIZATION::Initialization::Initialization(const std::string fail_str
 
 
 
-DWORD MOONG::INITIALIZATION::Initialization::Write(const std::string file_path, const std::string app_name, const std::string key_name, const std::string value) const
+DWORD MOONG::INITIALIZATION::Initialization::Write(const std::string app_name, const std::string key_name, const std::string value, const std::string file_path) const
 {
 	if (WritePrivateProfileStringA(app_name.c_str(), key_name.c_str(), value.c_str(), file_path.c_str()) == 0)
 	{
@@ -21,7 +21,7 @@ DWORD MOONG::INITIALIZATION::Initialization::Write(const std::string file_path, 
 	return EXIT_SUCCESS;
 }
 
-DWORD MOONG::INITIALIZATION::Initialization::Write(const std::string file_path, const std::string app_name, const std::string key_name, int value) const
+DWORD MOONG::INITIALIZATION::Initialization::Write(const std::string app_name, const std::string key_name, int value, const std::string file_path) const
 {
 	std::ostringstream convert_string;
 	convert_string << value;

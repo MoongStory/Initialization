@@ -22,8 +22,8 @@ namespace MOONG
 			// 반환 값
 			//		성공 : 0
 			//		실패 : GetLastError() 에러 코드.
-			DWORD Write(const std::string file_path, const std::string app_name, const std::string key_name, const std::string value) const;
-			DWORD Write(const std::string file_path, const std::string app_name, const std::string key_name, int value) const;
+			DWORD Write(const std::string app_name, const std::string key_name, const std::string value, const std::string file_path) const;
+			DWORD Write(const std::string app_name, const std::string key_name, int value, const std::string file_path) const;
 
 
 

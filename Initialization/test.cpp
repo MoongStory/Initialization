@@ -33,7 +33,7 @@ int main()
 	std::string convert_wchar_to_char;
 
 #pragma region param char return char
-	std::cout << "write return code : " << initializationA.Write(ini_file_name_char, app_name_char, key_name_char, value_char) << std::endl;
+	std::cout << "write return code : " << initializationA.Write(app_name_char, key_name_char, value_char, ini_file_name_char) << std::endl;
 
 	std::cout << "read return code (정상인 경우, 읽어들인 문자열의 길이) : " << initializationA.Read(ini_file_name_char, app_name_char, key_name_char, buf_char, _countof(buf_char)) << std::endl;
 	if (initializationA.getFailString().compare(buf_char) != 0)
@@ -75,7 +75,7 @@ int main()
 	std::cout << std::endl;
 
 #pragma region param string return char
-	std::cout << "write return code : " << initializationA.Write(ini_file_name_char, app_name_string.c_str(), key_name_string.c_str(), value_string.c_str()) << std::endl;
+	std::cout << "write return code : " << initializationA.Write(app_name_string.c_str(), key_name_string.c_str(), value_string.c_str(), ini_file_name_char) << std::endl;
 
 	std::cout << "read return code : (정상인 경우, 읽어들인 문자열의 길이) " << initializationA.Read(ini_file_name_char, app_name_string.c_str(), key_name_string.c_str(), buf_char, _countof(buf_char)) << std::endl;
 	if (initializationA.getFailString().compare(buf_char) != 0)
@@ -105,7 +105,7 @@ int main()
 	std::cout << std::endl;
 
 #pragma region param char return wchar_t
-	std::cout << "write return code : " << initializationA.Write(ini_file_name_char, app_name_char, key_name_char, value_char) << std::endl;
+	std::cout << "write return code : " << initializationA.Write(app_name_char, key_name_char, value_char, ini_file_name_char) << std::endl;
 
 	std::cout << "read return code (정상인 경우, 읽어들인 문자열의 길이) : " << initializationA.Read(ini_file_name_char, app_name_char, key_name_char, buf_wchar_t, _countof(buf_wchar_t)) << std::endl;
 
@@ -151,7 +151,7 @@ int main()
 	std::cout << std::endl;
 
 #pragma region param int
-	std::cout << "write return code : " << initializationA.Write(ini_file_name_char, app_name_int, key_name_int, value_int) << std::endl;
+	std::cout << "write return code : " << initializationA.Write(app_name_int, key_name_int, value_int, ini_file_name_char) << std::endl;
 
 	if (initializationA.Read(ini_file_name_char, app_name_int, key_name_int) == initializationA.getFailValue())
 	{
@@ -190,8 +190,8 @@ int main()
 	std::cout << std::endl;
 
 #pragma region set file path
-	std::cout << "write return code : " << initializationA.Write("./temp.ini", app_name_int, key_name_int, 777) << std::endl;
-	std::cout << "write return code : " << initializationA.Write("./temp.ini", app_name_char, key_name_char, "my input") << std::endl;
+	std::cout << "write return code : " << initializationA.Write(app_name_int, key_name_int, 777, "./temp.ini") << std::endl;
+	std::cout << "write return code : " << initializationA.Write(app_name_char, key_name_char, "my input", "./temp.ini") << std::endl;
 
 	std::cout << "read return code (정상인 경우) : " << initializationA.Read("./temp.ini", app_name_char, key_name_char, buf_char, _countof(buf_char)) << std::endl;
 	if (initializationA.getFailString().compare(buf_char) != 0)
