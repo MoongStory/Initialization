@@ -31,16 +31,16 @@ DWORD MOONG::INITIALIZATION::Initialization::Write(const std::string app_name, c
 
 
 
-DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string file_path, const std::string app_name, const std::string key_name, char* output, DWORD length_output) const
+DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, const std::string key_name, char* output, DWORD length_output, const std::string file_path) const
 {
 	return GetPrivateProfileStringA(app_name.c_str(), key_name.c_str(), this->getFailString().c_str(), output, length_output, file_path.c_str());
 }
 
-DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string file_path, const std::string app_name, const std::string key_name, wchar_t* output, DWORD length_output) const
+DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, const std::string key_name, wchar_t* output, DWORD length_output, const std::string file_path) const
 {
 	char* buf = new char[length_output];
 
-	DWORD return_value = this->Read(file_path, app_name, key_name, buf, length_output);
+	DWORD return_value = this->Read(app_name, key_name, buf, length_output, file_path);
 
 	size_t convertedChars = 0;
 	mbstowcs_s(&convertedChars, output, length_output, buf, _TRUNCATE);
@@ -50,7 +50,7 @@ DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string file_path, c
 	return return_value;
 }
 
-unsigned int MOONG::INITIALIZATION::Initialization::Read(const std::string file_path, const std::string app_name, const std::string key_name) const
+unsigned int MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, const std::string key_name, const std::string file_path) const
 {
 	return GetPrivateProfileIntA(app_name.c_str(), key_name.c_str(), this->getFailValue(), file_path.c_str());
 }
