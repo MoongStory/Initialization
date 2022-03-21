@@ -17,7 +17,7 @@ namespace MOONG
 		class Initialization
 		{
 		public:
-			Initialization(const std::string fail_string = "", const unsigned int fail_value = 0);
+			Initialization(const std::string fail_string = "999999999", const unsigned int fail_value = 999999999);
 
 			// 반환 값
 			//		성공 : 0

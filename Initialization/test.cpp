@@ -96,13 +96,13 @@ int main()
 
 	convert_wchar_to_char = nstring;
 	delete[] nstring;
-	if (initializationA.getFailString() != convert_wchar_to_char)
+	if (initializationA.getFailString().compare(convert_wchar_to_char) != 0)
 	{
-		std::cout << "param char return wchar_t [" << convert_wchar_to_char << "]" << std::endl;
+		std::cout << "param char return wchar_t [" << convert_wchar_to_char.c_str() << "]" << std::endl;
 	}
 	else
 	{
-		std::cout << "param char return wchar_t [" << convert_wchar_to_char << "] 예외 처리 필요" << std::endl;
+		std::cout << "param char return wchar_t [" << convert_wchar_to_char.c_str() << "] 예외 처리 필요" << std::endl;
 	}
 
 	std::cout << std::endl;
@@ -116,13 +116,13 @@ int main()
 
 	convert_wchar_to_char = nstring;
 	delete[] nstring;
-	if (initializationA.getFailString() != convert_wchar_to_char)
+	if (initializationA.getFailString().compare(convert_wchar_to_char) != 0)
 	{
-		std::cout << "param char return wchar_t [" << convert_wchar_to_char << "]" << std::endl;
+		std::cout << "param char return wchar_t [" << convert_wchar_to_char.c_str() << "]" << std::endl;
 	}
 	else
 	{
-		std::cout << "param char return wchar_t [" << convert_wchar_to_char << "] 예외 처리 필요" << std::endl;
+		std::cout << "param char return wchar_t [" << convert_wchar_to_char.c_str() << "] 예외 처리 필요" << std::endl;
 	}
 
 	std::cout << std::endl;
@@ -136,13 +136,13 @@ int main()
 
 	convert_wchar_to_char = nstring;
 	delete[] nstring;
-	if (CUSTOM_DEFAULT_STRING_ON_FAIL != convert_wchar_to_char)
+	if (CUSTOM_DEFAULT_STRING_ON_FAIL.compare(convert_wchar_to_char) != 0)
 	{
-		std::cout << "param char return wchar_t [" << convert_wchar_to_char << "]" << std::endl;
+		std::cout << "param char return wchar_t [" << convert_wchar_to_char.c_str() << "]" << std::endl;
 	}
 	else
 	{
-		std::cout << "param char return wchar_t [" << convert_wchar_to_char << "] 예외 처리 필요" << std::endl;
+		std::cout << "param char return wchar_t [" << convert_wchar_to_char.c_str() << "] 예외 처리 필요" << std::endl;
 	}
 #pragma endregion param char return wchar_t
 
