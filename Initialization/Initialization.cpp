@@ -83,6 +83,49 @@ DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, co
 	return return_value;
 }
 
+DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, const std::string key_name, std::string delimit, std::vector<std::string>& output, DWORD length_output, const std::string file_path) const
+{
+	return this->Read(app_name, key_name, this->getFailString(), delimit, output, length_output, file_path);
+}
+
+DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, std::string delimit, std::vector<std::string>& output, DWORD length_output, const std::string file_path) const
+{
+	output.clear();
+
+	std::string buf;
+	DWORD return_value = this->Read(app_name, key_name, default_string_on_failure, buf, length_output, file_path);
+
+	char* token = NULL;
+#if _MSC_VER > 1200
+	char* next_token = NULL;
+
+	token = strtok_s((char*)(buf.c_str()), delimit.c_str(), &next_token);
+
+	while (token != NULL)
+	{
+		// Get next token:
+		if (token != NULL)
+		{
+			output.push_back(token);
+
+			token = strtok_s(NULL, delimit.c_str(), &next_token);
+		}
+	}
+#else
+	token = strtok((char*)(buf.c_str()), delimit.c_str());
+
+	while (token != NULL)
+	{
+		output.push_back(token);
+
+		// Get next token:
+		token = strtok(NULL, delimit.c_str()); // C4996
+	}
+#endif
+
+	return return_value;
+}
+
 unsigned int MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, const std::string key_name, const std::string file_path) const
 {
 	return this->Read(app_name, key_name, this->getFailValue(), file_path);

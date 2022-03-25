@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <wtypes.h>
+#include <vector>
 
 namespace MOONG
 {
@@ -35,6 +36,8 @@ namespace MOONG
 			DWORD Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, wchar_t* output, DWORD length_output, const std::string file_path) const;
 			DWORD Read(const std::string app_name, const std::string key_name, std::string& output, DWORD length_output, const std::string file_path) const;
 			DWORD Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, std::string& output, DWORD length_output, const std::string file_path) const;
+			DWORD Read(const std::string app_name, const std::string key_name, std::string delimit, std::vector<std::string>& output, DWORD length_output, const std::string file_path) const;
+			DWORD Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, std::string delimit, std::vector<std::string>& output, DWORD length_output, const std::string file_path) const;
 
 			// 반환 값
 			//		성공 : ini 파일에서 읽어들인 값.
