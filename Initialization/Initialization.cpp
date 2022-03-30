@@ -5,8 +5,8 @@
 
 MOONG::INITIALIZATION::Initialization::Initialization(const std::string fail_string, const unsigned int fail_value)
 {
-	this->setFailString(fail_string);
-	this->setFailValue(fail_value);
+	this->setDefaultString(fail_string);
+	this->setDefaultValue(fail_value);
 }
 
 
@@ -31,9 +31,27 @@ DWORD MOONG::INITIALIZATION::Initialization::Write(const std::string app_name, c
 
 
 
+DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, const std::string key_name, std::string& output, DWORD length_output, const std::string file_path) const
+{
+	return this->Read(app_name, key_name, this->getDefaultString(), output, length_output, file_path);
+}
+
+DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, std::string& output, DWORD length_output, const std::string file_path) const
+{
+	char* buf = new char[length_output];
+
+	DWORD return_value = this->Read(app_name, key_name, default_string_on_failure, buf, length_output, file_path);
+
+	output = buf;
+
+	delete[] buf;
+
+	return return_value;
+}
+
 DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, const std::string key_name, char* output, DWORD length_output, const std::string file_path) const
 {
-	return this->Read(app_name, key_name, this->getFailString(), output, length_output, file_path);
+	return this->Read(app_name, key_name, this->getDefaultString(), output, length_output, file_path);
 }
 
 DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, char* output, DWORD length_output, const std::string file_path) const
@@ -43,7 +61,7 @@ DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, co
 
 DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, const std::string key_name, wchar_t* output, DWORD length_output, const std::string file_path) const
 {
-	return this->Read(app_name, key_name, this->getFailString(), output, length_output, file_path);
+	return this->Read(app_name, key_name, this->getDefaultString(), output, length_output, file_path);
 }
 
 DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, wchar_t* output, DWORD length_output, const std::string file_path) const
@@ -65,27 +83,9 @@ DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, co
 	return return_value;
 }
 
-DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, const std::string key_name, std::string& output, DWORD length_output, const std::string file_path) const
-{
-	return this->Read(app_name, key_name, this->getFailString(), output, length_output, file_path);
-}
-
-DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, std::string& output, DWORD length_output, const std::string file_path) const
-{
-	char* buf = new char[length_output];
-
-	DWORD return_value = this->Read(app_name, key_name, default_string_on_failure, buf, length_output, file_path);
-
-	output = buf;
-
-	delete[] buf;
-
-	return return_value;
-}
-
 DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, const std::string key_name, std::string delimit, std::vector<std::string>& output, DWORD length_output, const std::string file_path) const
 {
-	return this->Read(app_name, key_name, this->getFailString(), delimit, output, length_output, file_path);
+	return this->Read(app_name, key_name, this->getDefaultString(), delimit, output, length_output, file_path);
 }
 
 DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, std::string delimit, std::vector<std::string>& output, DWORD length_output, const std::string file_path) const
@@ -128,7 +128,7 @@ DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, co
 
 unsigned int MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, const std::string key_name, const std::string file_path) const
 {
-	return this->Read(app_name, key_name, this->getFailValue(), file_path);
+	return this->Read(app_name, key_name, this->getDefaultValue(), file_path);
 }
 
 unsigned int MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, const std::string key_name, const int default_value_on_failure, const std::string file_path) const
@@ -138,22 +138,95 @@ unsigned int MOONG::INITIALIZATION::Initialization::Read(const std::string app_n
 
 
 
-const std::string MOONG::INITIALIZATION::Initialization::getFailString() const
+bool MOONG::INITIALIZATION::Initialization::CheckValueIsEmpty(const std::string value, const std::string check_value) const
 {
-	return this->fail_string_;
+	if (check_value.compare(value) == 0)
+	{
+		return MOONG::INITIALIZATION::CHECK_VALUE::EMPTY;
+	}
+
+	return MOONG::INITIALIZATION::CHECK_VALUE::EXIST;
 }
 
-unsigned int MOONG::INITIALIZATION::Initialization::getFailValue() const
+bool MOONG::INITIALIZATION::Initialization::CheckValueIsEmpty(const std::string value) const
 {
-	return this->fail_value_;
+	return this->CheckValueIsEmpty(value, this->getDefaultString());
 }
 
-void MOONG::INITIALIZATION::Initialization::setFailString(const std::string fail_string)
+bool MOONG::INITIALIZATION::Initialization::CheckValueIsEmpty(const char* const value, const std::string check_value) const
 {
-	this->fail_string_ = fail_string;
+	std::string temp_value = value;
+
+	return this->CheckValueIsEmpty(temp_value, check_value);
 }
 
-void MOONG::INITIALIZATION::Initialization::setFailValue(const unsigned int fail_value)
+bool MOONG::INITIALIZATION::Initialization::CheckValueIsEmpty(const wchar_t* const value, const std::string check_value) const
 {
-	this->fail_value_ = fail_value;
+	size_t new_size = (wcslen(value) + 1) * 2;
+	char* nstring = new char[new_size];
+	size_t convertedChars = 0;
+	wcstombs_s(&convertedChars, nstring, new_size, value, _TRUNCATE);
+
+	bool return_value = this->CheckValueIsEmpty(nstring, check_value);
+
+	delete[] nstring;
+
+	return return_value;
+}
+
+bool MOONG::INITIALIZATION::Initialization::CheckValueIsEmpty(const wchar_t* const value) const
+{
+	return this->CheckValueIsEmpty(value, this->getDefaultString());
+}
+
+bool MOONG::INITIALIZATION::Initialization::CheckValueIsEmpty(const std::vector<std::string> value, const std::string check_value) const
+{
+	if (value.size() != 1)
+	{
+		return MOONG::INITIALIZATION::CHECK_VALUE::EXIST;
+	}
+	
+	return this->CheckValueIsEmpty(value[0], check_value);
+}
+
+bool MOONG::INITIALIZATION::Initialization::CheckValueIsEmpty(const std::vector<std::string> value) const
+{
+	return this->CheckValueIsEmpty(value, this->getDefaultString());
+}
+
+bool MOONG::INITIALIZATION::Initialization::CheckValueIsEmpty(const unsigned int value, const unsigned int check_value) const
+{
+	if (value == check_value)
+	{
+		return MOONG::INITIALIZATION::CHECK_VALUE::EMPTY;
+	}
+	
+	return MOONG::INITIALIZATION::CHECK_VALUE::EXIST;
+}
+
+bool MOONG::INITIALIZATION::Initialization::CheckValueIsEmpty(const unsigned int value) const
+{
+	return this->CheckValueIsEmpty(value, this->getDefaultValue());
+}
+
+
+
+const std::string MOONG::INITIALIZATION::Initialization::getDefaultString() const
+{
+	return this->default_string_;
+}
+
+unsigned int MOONG::INITIALIZATION::Initialization::getDefaultValue() const
+{
+	return this->default_value_;
+}
+
+void MOONG::INITIALIZATION::Initialization::setDefaultString(const std::string fail_string)
+{
+	this->default_string_ = fail_string;
+}
+
+void MOONG::INITIALIZATION::Initialization::setDefaultValue(const unsigned int fail_value)
+{
+	this->default_value_ = fail_value;
 }

@@ -15,10 +15,16 @@ namespace MOONG
 {
 	namespace INITIALIZATION
 	{
+		namespace CHECK_VALUE
+		{
+			const bool EMPTY = false;
+			const bool EXIST = true;
+		};
+
 		class Initialization
 		{
 		public:
-			Initialization(const std::string fail_string = "999999999", const unsigned int fail_value = 999999999);
+			Initialization(const std::string default_string = "999999999", const unsigned int default_value = 999999999);
 
 			// 반환 값
 			//		성공 : 0
@@ -30,12 +36,12 @@ namespace MOONG
 
 			// 반환 값
 			//		문자열 길이.
+			DWORD Read(const std::string app_name, const std::string key_name, std::string& output, DWORD length_output, const std::string file_path) const;
+			DWORD Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, std::string& output, DWORD length_output, const std::string file_path) const;
 			DWORD Read(const std::string app_name, const std::string key_name, char* output, DWORD length_output, const std::string file_path) const;
 			DWORD Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, char* output, DWORD length_output, const std::string file_path) const;
 			DWORD Read(const std::string app_name, const std::string key_name, wchar_t* output, DWORD length_output, const std::string file_path) const;
 			DWORD Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, wchar_t* output, DWORD length_output, const std::string file_path) const;
-			DWORD Read(const std::string app_name, const std::string key_name, std::string& output, DWORD length_output, const std::string file_path) const;
-			DWORD Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, std::string& output, DWORD length_output, const std::string file_path) const;
 			DWORD Read(const std::string app_name, const std::string key_name, std::string delimit, std::vector<std::string>& output, DWORD length_output, const std::string file_path) const;
 			DWORD Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, std::string delimit, std::vector<std::string>& output, DWORD length_output, const std::string file_path) const;
 
@@ -49,19 +55,27 @@ namespace MOONG
 
 
 
-			const std::string getFailString() const;
-			unsigned int getFailValue() const;
-
+			bool CheckValueIsEmpty(const std::string value, const std::string check_value) const;
+			bool CheckValueIsEmpty(const std::string value) const;
+			bool CheckValueIsEmpty(const char* const value, const std::string check_value) const;
+			bool CheckValueIsEmpty(const wchar_t* const value, const std::string check_value) const;
+			bool CheckValueIsEmpty(const wchar_t* const value) const;
+			bool CheckValueIsEmpty(const std::vector<std::string> value, const std::string check_value) const;
+			bool CheckValueIsEmpty(const std::vector<std::string> value) const;
+			bool CheckValueIsEmpty(const unsigned int value, const unsigned int check_value) const;
+			bool CheckValueIsEmpty(const unsigned int value) const;
 		private:
-			void setFailString(const std::string fail_string);
-			void setFailValue(const unsigned int fail_value);
+			const std::string getDefaultString() const;
+			void setDefaultString(const std::string fail_string);
+
+			void setDefaultValue(const unsigned int fail_value);
+			unsigned int getDefaultValue() const;
 			
 		public:
 
 		private:
-			// TODO: 변수 이름, 게터, 세터 이름 변경.
-			std::string fail_string_;
-			unsigned int fail_value_;
+			std::string default_string_;
+			unsigned int default_value_;
 		};
 	}
 }
