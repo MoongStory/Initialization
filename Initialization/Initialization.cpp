@@ -56,7 +56,22 @@ DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, co
 
 DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, char* output, DWORD length_output, const std::string file_path) const
 {
-	return GetPrivateProfileStringA(app_name.c_str(), key_name.c_str(), default_string_on_failure.c_str(), output, length_output, file_path.c_str());
+	char* buf = new char[length_output];
+
+	DWORD return_value = GetPrivateProfileStringA(app_name.c_str(), key_name.c_str(), default_string_on_failure.c_str(), buf, length_output, file_path.c_str());
+
+	if(strlen(buf) == 0)
+	{
+		StringCchCopyA(output, length_output, default_string_on_failure.c_str());
+	}
+	else
+	{
+		StringCchCopyA(output, length_output, buf);
+	}
+
+	delete[] buf;
+
+	return return_value;
 }
 
 DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, const std::string key_name, wchar_t* output, DWORD length_output, const std::string file_path) const
@@ -75,7 +90,6 @@ DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, co
 	mbstowcs_s(&convertedChars, output, length_output, buf, _TRUNCATE);
 #else
 	mbstowcs(output, buf, length_output);
-	//wcstombs(nstring, ipstringbuffer, new_size);
 #endif
 
 	delete[] buf;
@@ -133,7 +147,33 @@ unsigned int MOONG::INITIALIZATION::Initialization::Read(const std::string app_n
 
 unsigned int MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, const std::string key_name, const int default_value_on_failure, const std::string file_path) const
 {
-	return GetPrivateProfileIntA(app_name.c_str(), key_name.c_str(), default_value_on_failure, file_path.c_str());
+	std::string output;
+
+	std::ostringstream default_string_on_failure;
+	default_string_on_failure << default_value_on_failure;
+
+	this->Read(app_name.c_str(), key_name.c_str(), default_string_on_failure.str(), output, 16, file_path.c_str());
+
+	for(unsigned int i = 0; i < output.length(); i++)
+	{
+		if(output[i] < '0' || output[i] > '9')
+		{
+			return default_value_on_failure;
+		}
+	}
+
+	int int_value = 0;
+	std::stringstream int_string_stream(output);
+	int_string_stream >> int_value;
+
+	if (!int_string_stream.fail())
+	{
+		return int_value;
+	}
+	else
+	{
+		return default_value_on_failure;
+	}
 }
 
 
@@ -162,10 +202,15 @@ bool MOONG::INITIALIZATION::Initialization::CheckValueIsEmpty(const char* const 
 
 bool MOONG::INITIALIZATION::Initialization::CheckValueIsEmpty(const wchar_t* const value, const std::string check_value) const
 {
-	size_t new_size = (wcslen(value) + 1) * 2;
+	size_t new_size = (wcslen(value) + 1);
 	char* nstring = new char[new_size];
+
+#if _MSC_VER > 1200
 	size_t convertedChars = 0;
 	wcstombs_s(&convertedChars, nstring, new_size, value, _TRUNCATE);
+#else
+	wcstombs(nstring, value, new_size);
+#endif
 
 	bool return_value = this->CheckValueIsEmpty(nstring, check_value);
 

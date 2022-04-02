@@ -53,7 +53,7 @@ namespace MOONG
 			unsigned int Read(const std::string app_name, const std::string key_name, const std::string file_path) const;
 			unsigned int Read(const std::string app_name, const std::string key_name, const int default_value_on_failure, const std::string file_path) const;
 
-
+			
 
 			bool CheckValueIsEmpty(const std::string value, const std::string check_value) const;
 			bool CheckValueIsEmpty(const std::string value) const;
@@ -67,9 +67,9 @@ namespace MOONG
 		private:
 			const std::string getDefaultString() const;
 			void setDefaultString(const std::string fail_string);
-
-			void setDefaultValue(const unsigned int fail_value);
+			
 			unsigned int getDefaultValue() const;
+			void setDefaultValue(const unsigned int fail_value);
 			
 		public:
 
