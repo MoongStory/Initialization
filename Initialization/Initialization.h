@@ -44,14 +44,8 @@ namespace MOONG
 			DWORD Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, wchar_t* output, DWORD length_output, const std::string file_path) const;
 			DWORD Read(const std::string app_name, const std::string key_name, std::string delimit, std::vector<std::string>& output, DWORD length_output, const std::string file_path) const;
 			DWORD Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, std::string delimit, std::vector<std::string>& output, DWORD length_output, const std::string file_path) const;
-
-			// 반환 값
-			//		성공 : ini 파일에서 읽어들인 값.
-			//		실패 : "Initialization" 클래스 생성 시 설정한 "fail_value" 값.
-			//				설정하지 않았다면 헤더 파일의 생성자 파라미터 초기화 값.
-			// "app_name"과 "key_name"이 존재하지만 값이 문자열로 설정되어 있을 경우 0을 반환하므로 주의할 것.
-			unsigned int Read(const std::string app_name, const std::string key_name, const std::string file_path) const;
-			unsigned int Read(const std::string app_name, const std::string key_name, const int default_value_on_failure, const std::string file_path) const;
+			DWORD Read(const std::string app_name, const std::string key_name, int* output, const std::string file_path) const;
+			DWORD Read(const std::string app_name, const std::string key_name, const int default_value_on_failure, int* output, const std::string file_path) const;
 
 			
 

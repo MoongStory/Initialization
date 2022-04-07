@@ -3,10 +3,10 @@
 #include <sstream>
 #include <strsafe.h>
 
-MOONG::INITIALIZATION::Initialization::Initialization(const std::string fail_string, const unsigned int fail_value)
+MOONG::INITIALIZATION::Initialization::Initialization(const std::string default_string, const unsigned int default_value)
 {
-	this->setDefaultString(fail_string);
-	this->setDefaultValue(fail_value);
+	this->setDefaultString(default_string);
+	this->setDefaultValue(default_value);
 }
 
 
@@ -62,6 +62,8 @@ DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, co
 
 	if(strlen(buf) == 0)
 	{
+		return_value = (DWORD)(default_string_on_failure.length());
+
 		StringCchCopyA(output, length_output, default_string_on_failure.c_str());
 	}
 	else
@@ -140,39 +142,69 @@ DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, co
 	return return_value;
 }
 
-unsigned int MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, const std::string key_name, const std::string file_path) const
+DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, const std::string key_name, int* output, const std::string file_path) const
 {
-	return this->Read(app_name, key_name, this->getDefaultValue(), file_path);
+	return this->Read(app_name, key_name, this->getDefaultValue(), output, file_path);
 }
 
-unsigned int MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, const std::string key_name, const int default_value_on_failure, const std::string file_path) const
+DWORD MOONG::INITIALIZATION::Initialization::Read(const std::string app_name, const std::string key_name, const int default_value_on_failure, int* output, const std::string file_path) const
 {
-	std::string output;
+	std::string buf;
 
 	std::ostringstream default_string_on_failure;
 	default_string_on_failure << default_value_on_failure;
 
-	this->Read(app_name.c_str(), key_name.c_str(), default_string_on_failure.str(), output, 16, file_path.c_str());
+	DWORD return_value = this->Read(app_name.c_str(), key_name.c_str(), default_string_on_failure.str(), buf, 64, file_path.c_str());
 
-	for(unsigned int i = 0; i < output.length(); i++)
+	for(unsigned int i = 0; i < buf.length(); i++)
 	{
-		if(output[i] < '0' || output[i] > '9')
+		if(buf[i] < '0' || buf[i] > '9')
 		{
-			return default_value_on_failure;
+			*output = (int)(this->getDefaultValue());
+
+			return_value = 0;
+
+			for(int i = 1; (this->getDefaultValue() / i) >= 1; i *= 10)
+			{
+				return_value++;
+			}
+
+			if(return_value == 0)
+			{
+				return_value = 1;
+			}
+
+			return return_value;
 		}
 	}
 
 	int int_value = 0;
-	std::stringstream int_string_stream(output);
+	std::stringstream int_string_stream(buf);
 	int_string_stream >> int_value;
 
 	if (!int_string_stream.fail())
 	{
-		return int_value;
+		*output = int_value;
+
+		return return_value;
 	}
 	else
 	{
-		return default_value_on_failure;
+		*output = (int)(this->getDefaultValue());
+
+		return_value = 0;
+
+		for (int i = 1; (this->getDefaultValue() / i) >= 1; i *= 10)
+		{
+			return_value++;
+		}
+
+		if (return_value == 0)
+		{
+			return_value = 1;
+		}
+
+		return return_value;
 	}
 }
 

@@ -307,98 +307,98 @@ int main()
 	std::cout << "write return code : " << initialization.Write(APP_NAME_INT, "test001", "123a456", INI_FILE_NAME_CHAR) << std::endl;
 	std::cout << "write return code : " << initialization.Write(APP_NAME_INT, "test002", "a123456", INI_FILE_NAME_CHAR) << std::endl;
 
-	return_value = initialization.Read(APP_NAME_INT, KEY_NAME_INT, INI_FILE_NAME_CHAR);
+	std::cout << "read number return (정상인 경우) : " << initialization.Read(APP_NAME_INT, KEY_NAME_INT, &return_value, INI_FILE_NAME_CHAR) << std::endl;
 	if(initialization.CheckValueIsEmpty((unsigned int)return_value) == MOONG::INITIALIZATION::CHECK_VALUE::EXIST)
 	{
-		std::cout << "read number return (정상인 경우) : " << return_value << std::endl;
+		std::cout << "return int[" << return_value << "]" << std::endl;
 	}
 	else
 	{
-		std::cout << "read number return (정상인 경우) : " << return_value << " (예외처리 필요)" << std::endl;
+		std::cout << "return int[" << return_value << "] (예외처리 필요)" << std::endl;
 	}
 
 	std::cout << std::endl;
 
-	return_value = initialization.Read(APP_NAME_CHAR, KEY_NAME_CHAR_EMPTY, INI_FILE_NAME_CHAR);
+	std::cout << "read number return (항목만 있고 값이 없는 경우) : " << initialization.Read(APP_NAME_CHAR, KEY_NAME_CHAR_EMPTY, &return_value, INI_FILE_NAME_CHAR) << std::endl;
 	if(initialization.CheckValueIsEmpty((unsigned int)return_value) == MOONG::INITIALIZATION::CHECK_VALUE::EXIST)
 	{
-		std::cout << "read number return (항목만 있고 값이 없는 경우) : " << return_value << std::endl;
+		std::cout << "return int[" << return_value << "]" << std::endl;
 	}
 	else
 	{
-		std::cout << "read number return (항목만 있고 값이 없는 경우) : " << return_value << " (예외처리 필요)" << std::endl;
+		std::cout << "return int[" << return_value << "] (예외처리 필요)" << std::endl;
 	}
 
 	std::cout << std::endl;
 
-	return_value = initialization.Read(APP_NAME_INT, "key name1", INI_FILE_NAME_CHAR);
+	std::cout << "read number return (섹션 또는 항목이 없는 경우) : " << initialization.Read(APP_NAME_INT, "key name1", &return_value, INI_FILE_NAME_CHAR) << std::endl;
 	if(initialization.CheckValueIsEmpty((unsigned int)return_value) == MOONG::INITIALIZATION::CHECK_VALUE::EXIST)
 	{
-		std::cout << "read number return (섹션 또는 항목이 없는 경우) : " << return_value << std::endl;
+		std::cout << "return int[" << return_value << "]" << std::endl;
 	}
 	else
 	{
-		std::cout << "read number return (섹션 또는 항목이 없는 경우) : " << return_value << " (예외처리 필요)" << std::endl;
+		std::cout << "return int[" << return_value << "] (예외처리 필요)" << std::endl;
 	}
 
 	std::cout << std::endl;
 
-	return_value = initialization.Read(APP_NAME_INT, "key name1", CUSTOM_DEFAULT_VALUE_ON_FAIL, INI_FILE_NAME_CHAR);
+	std::cout << "read number return (실패 시 커스텀 값 지정) : " << initialization.Read(APP_NAME_INT, "key name1", CUSTOM_DEFAULT_VALUE_ON_FAIL, &return_value, INI_FILE_NAME_CHAR) << std::endl;
 	if(initialization.CheckValueIsEmpty((unsigned int)return_value, (unsigned int)CUSTOM_DEFAULT_VALUE_ON_FAIL) == MOONG::INITIALIZATION::CHECK_VALUE::EXIST)
 	{
-		std::cout << "read number return (실패 시 커스텀 값 지정) : " << return_value << std::endl;
+		std::cout << "return int[" << return_value << "]" << std::endl;
 	}
 	else
 	{
-		std::cout << "read number return (실패 시 커스텀 값 지정) : " << return_value << " (예외처리 필요)" << std::endl;
+		std::cout << "return int[" << return_value << "] (예외처리 필요)" << std::endl;
 	}
 
 	std::cout << std::endl;
 
-	return_value = initialization.Read(APP_NAME_CHAR, KEY_NAME_CHAR, INI_FILE_NAME_CHAR);
+	std::cout << "read number return (문자열로 된 값을 읽은 경우) : " << initialization.Read(APP_NAME_CHAR, KEY_NAME_CHAR, &return_value, INI_FILE_NAME_CHAR) << std::endl;
 	if(initialization.CheckValueIsEmpty((unsigned int)return_value) == MOONG::INITIALIZATION::CHECK_VALUE::EXIST)
 	{
-		std::cout << "read number return (문자열로 된 값을 읽은 경우) : " << return_value << std::endl;
+		std::cout << "return int[" << return_value << "]" << std::endl;
 	}
 	else
 	{
-		std::cout << "read number return (문자열로 된 값을 읽은 경우) : " << return_value << " (예외처리 필요)" << std::endl;
+		std::cout << "return int[" << return_value << "] (예외처리 필요)" << std::endl;
 	}
 
 	std::cout << std::endl;
 
-	return_value = initialization.Read(APP_NAME_INT, "test000", INI_FILE_NAME_CHAR);
+	std::cout << "read number return (숫자로만 이루어진 문자열을 읽은 경우) : " << initialization.Read(APP_NAME_INT, "test000", &return_value, INI_FILE_NAME_CHAR) << std::endl;
 	if(initialization.CheckValueIsEmpty((unsigned int)return_value) == MOONG::INITIALIZATION::CHECK_VALUE::EXIST)
 	{
-		std::cout << "read number return (숫자로만 이루어진 문자열을 읽은 경우) : " << return_value << std::endl;
+		std::cout << "return int[" << return_value << "]" << std::endl;
 	}
 	else
 	{
-		std::cout << "read number return (숫자로만 이루어진 문자열을 읽은 경우) : " << return_value << " (예외처리 필요)" << std::endl;
+		std::cout << "return int[" << return_value << "] (예외처리 필요)" << std::endl;
 	}
 
 	std::cout << std::endl;
 
-	return_value = initialization.Read(APP_NAME_INT, "test001", INI_FILE_NAME_CHAR);
+	std::cout << "read number return (숫자 중간에 문자가 포함된 문자열을 읽은 경우) : " << initialization.Read(APP_NAME_INT, "test001", &return_value, INI_FILE_NAME_CHAR) << std::endl;
 	if(initialization.CheckValueIsEmpty((unsigned int)return_value) == MOONG::INITIALIZATION::CHECK_VALUE::EXIST)
 	{
-		std::cout << "read number return (숫자 중간에 문자가 포함된 문자열을 읽은 경우) : " << return_value << std::endl;
+		std::cout << "return int[" << return_value << "]" << std::endl;
 	}
 	else
 	{
-		std::cout << "read number return (숫자 중간에 문자가 포함된 문자열을 읽은 경우) : " << return_value << " (예외처리 필요)" << std::endl;
+		std::cout << "return int[" << return_value << "] (예외처리 필요)" << std::endl;
 	}
 
 	std::cout << std::endl;
 
-	return_value = initialization.Read(APP_NAME_INT, "test002", INI_FILE_NAME_CHAR);
+	std::cout << "read number return (맨 앞 문자 나머지 숫자인 경우) : " << initialization.Read(APP_NAME_INT, "test002", &return_value, INI_FILE_NAME_CHAR) << std::endl;
 	if(initialization.CheckValueIsEmpty((unsigned int)return_value) == MOONG::INITIALIZATION::CHECK_VALUE::EXIST)
 	{
-		std::cout << "read number return (맨 앞 문자 나머지 숫자인 경우) : " << return_value << std::endl;
+		std::cout << "return int[" << return_value << "]" << std::endl;
 	}
 	else
 	{
-		std::cout << "read number return (맨 앞 문자 나머지 숫자인 경우) : " << return_value << " (예외처리 필요)" << std::endl;
+		std::cout << "return int[" << return_value << "] (예외처리 필요)" << std::endl;
 	}
 #pragma endregion param int
 
@@ -420,10 +420,10 @@ int main()
 		std::cout << "param wchar_t return char [" << buf_char << "] 예외 처리 필요" << std::endl;
 	}
 
-	return_value = initialization.Read(APP_NAME_INT, KEY_NAME_INT, "./temp.ini");
+	initialization.Read(APP_NAME_INT, KEY_NAME_INT, &return_value, "./temp.ini");
 	if(initialization.CheckValueIsEmpty(return_value) == MOONG::INITIALIZATION::CHECK_VALUE::EXIST)
 	{
-		std::cout << "read number return (정상인 경우) : " << initialization.Read(APP_NAME_INT, KEY_NAME_INT, "./temp.ini") << std::endl;
+		std::cout << "read number return (정상인 경우) : " << return_value << std::endl;
 	}
 	else
 	{
