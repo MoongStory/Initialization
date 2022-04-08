@@ -19,7 +19,7 @@ namespace MOONG
 		{
 			const bool EMPTY = false;
 			const bool EXIST = true;
-		};
+		}
 
 		class Initialization
 		{
