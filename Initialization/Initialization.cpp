@@ -155,11 +155,11 @@ DWORD MOONG::Initialization::Read(const std::string app_name, const std::string 
 	{
 		if(buf[i] < '0' || buf[i] > '9')
 		{
-			*output = (int)(MOONG::Initialization::getDefaultValue());
+			*output = default_value_on_failure;
 
 			return_value = 0;
 
-			for(int i = 1; (MOONG::Initialization::getDefaultValue() / i) >= 1; i *= 10)
+			for(int i = 1; (default_value_on_failure / i) >= 1; i *= 10)
 			{
 				return_value++;
 			}
