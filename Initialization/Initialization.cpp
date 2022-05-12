@@ -153,6 +153,11 @@ DWORD MOONG::Initialization::Read(const std::string app_name, const std::string 
 
 	for(unsigned int i = 0; i < buf.length(); i++)
 	{
+		if (i == 0 && buf[i] == '-')
+		{
+			continue;
+		}
+
 		if(buf[i] < '0' || buf[i] > '9')
 		{
 			*output = default_value_on_failure;

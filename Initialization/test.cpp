@@ -297,7 +297,7 @@ int main()
 	std::cout << std::endl;
 
 #pragma region param int
-	std::cout << "write return code : " << MOONG::Initialization::Write(APP_NAME_INT, KEY_NAME_INT, VALUE_INT, INI_FILE_NAME_CHAR) << std::endl;
+	std::cout << "write return code : " << MOONG::Initialization::Write(APP_NAME_INT, KEY_NAME_INT, -1, INI_FILE_NAME_CHAR) << std::endl;
 	std::cout << "write return code : " << MOONG::Initialization::Write(APP_NAME_INT, "test000", "123456", INI_FILE_NAME_CHAR) << std::endl;
 	std::cout << "write return code : " << MOONG::Initialization::Write(APP_NAME_INT, "test001", "123a456", INI_FILE_NAME_CHAR) << std::endl;
 	std::cout << "write return code : " << MOONG::Initialization::Write(APP_NAME_INT, "test002", "a123456", INI_FILE_NAME_CHAR) << std::endl;
