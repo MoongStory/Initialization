@@ -1,5 +1,8 @@
 #include "Initialization.h"
 
+// https://github.com/MoongStory/ConvertString
+#include "../../ConvertString/ConvertString/ConvertString.h"
+
 #include <iostream>
 
 const char* const INI_FILE_NAME_CHAR = "./test.ini";
@@ -103,13 +106,7 @@ int main()
 #pragma region param char return wchar_t
 	std::cout << "read return code (정상인 경우, 읽어들인 문자열의 길이) : " << MOONG::Initialization::Read(APP_NAME_CHAR, KEY_NAME_CHAR, "", buf_wchar_t, _countof(buf_wchar_t), INI_FILE_NAME_CHAR) << std::endl;
 
-	size_t new_size = (wcslen(buf_wchar_t) + 1) * 2;
-	char* nstring = new char[new_size];
-	size_t convertedChars = 0;
-	wcstombs_s(&convertedChars, nstring, new_size, buf_wchar_t, _TRUNCATE);
-
-	convert_wchar_to_char = nstring;
-	delete[] nstring;
+	convert_wchar_to_char = MOONG::ConvertString::wstring_to_string(buf_wchar_t);
 	if(convert_wchar_to_char.length() > 0)
 	{
 		std::cout << "param char return wchar_t [" << convert_wchar_to_char.c_str() << "]" << std::endl;
@@ -123,13 +120,7 @@ int main()
 
 	std::cout << "read return code (섹션 또는 항목이 없는 경우) : " << MOONG::Initialization::Read(APP_NAME_CHAR, "key name1", "", buf_wchar_t, _countof(buf_wchar_t), INI_FILE_NAME_CHAR) << std::endl;
 	
-	new_size = (wcslen(buf_wchar_t) + 1) * 2;
-	nstring = new char[new_size];
-	convertedChars = 0;
-	wcstombs_s(&convertedChars, nstring, new_size, buf_wchar_t, _TRUNCATE);
-
-	convert_wchar_to_char = nstring;
-	delete[] nstring;
+	convert_wchar_to_char = MOONG::ConvertString::wstring_to_string(buf_wchar_t);
 	if(convert_wchar_to_char.length() > 0)
 	{
 		std::cout << "param char return wchar_t [" << convert_wchar_to_char.c_str() << "]" << std::endl;
@@ -143,13 +134,7 @@ int main()
 
 	std::cout << "read return code (실패 시 커스텀 문자열 지정) : " << MOONG::Initialization::Read(APP_NAME_CHAR, "key name1", CUSTOM_DEFAULT_STRING_ON_FAIL, buf_wchar_t, _countof(buf_wchar_t), INI_FILE_NAME_CHAR) << std::endl;
 
-	new_size = (wcslen(buf_wchar_t) + 1) * 2;
-	nstring = new char[new_size];
-	convertedChars = 0;
-	wcstombs_s(&convertedChars, nstring, new_size, buf_wchar_t, _TRUNCATE);
-
-	convert_wchar_to_char = nstring;
-	delete[] nstring;
+	convert_wchar_to_char = MOONG::ConvertString::wstring_to_string(buf_wchar_t);
 	if (CUSTOM_DEFAULT_STRING_ON_FAIL.compare(convert_wchar_to_char) != 0)
 	{
 		std::cout << "param char return wchar_t [" << convert_wchar_to_char.c_str() << "]" << std::endl;
