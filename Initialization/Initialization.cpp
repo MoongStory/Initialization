@@ -1,5 +1,8 @@
 #include "Initialization.h"
 
+// https://github.com/MoongStory/ConvertString
+#include "../../ConvertString/ConvertString/ConvertString.h"
+
 #include <sstream>
 #include <strsafe.h>
 
@@ -64,12 +67,7 @@ DWORD MOONG::Initialization::Read(const std::string app_name, const std::string 
 
 	DWORD return_value = MOONG::Initialization::Read(app_name, key_name, default_string_on_failure, buf, length_output, file_path);
 
-#if _MSC_VER > 1200
-	size_t convertedChars = 0;
-	mbstowcs_s(&convertedChars, output, length_output, buf, _TRUNCATE);
-#else
-	mbstowcs(output, buf, length_output);
-#endif
+	StringCchCopyW(output, length_output, MOONG::ConvertString::string_to_wstring(buf).c_str());
 
 	delete[] buf;
 
