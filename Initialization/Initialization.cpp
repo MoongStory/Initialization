@@ -6,6 +6,9 @@
 // https://github.com/MoongStory/ConvertDataType
 #include "../../ConvertDataType/ConvertDataType/ConvertDataType.h"
 
+// https://github.com/MoongStory/Exception
+#include "../../Exception/Exception/Exception.h"
+
 DWORD MOONG::Initialization::Write(const std::string app_name, const std::string key_name, const std::string value, const std::string file_path) noexcept(false)
 {
 	if (WritePrivateProfileStringA(app_name.c_str(), key_name.c_str(), value.c_str(), file_path.c_str()) == 0)

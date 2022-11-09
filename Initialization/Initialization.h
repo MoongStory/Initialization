@@ -11,9 +11,6 @@
 #include <wtypes.h>
 #include <vector>
 
-// https://github.com/MoongStory/Exception
-#include "../../Exception/Exception/Exception.h"
-
 namespace MOONG
 {
 	namespace INITIALIZATION
