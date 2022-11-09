@@ -6,32 +6,19 @@
 // https://github.com/MoongStory/ConvertDataType
 #include "../../ConvertDataType/ConvertDataType/ConvertDataType.h"
 
-// https://github.com/MoongStory/Exception
-#include "../../Exception/Exception/Exception.h"
-
-DWORD MOONG::Initialization::Write(const std::string app_name, const std::string key_name, const std::string value, const std::string file_path) noexcept(false)
+DWORD MOONG::Initialization::Write(const std::string app_name, const std::string key_name, const std::string value, const std::string file_path)
 {
 	if (WritePrivateProfileStringA(app_name.c_str(), key_name.c_str(), value.c_str(), file_path.c_str()) == 0)
 	{
-		throw MOONG::ExceptionFunctionCallFailed();
+		return GetLastError();
 	}
 
 	return EXIT_SUCCESS;
 }
 
-DWORD MOONG::Initialization::Write(const std::string app_name, const std::string key_name, int value, const std::string file_path) noexcept(false)
+DWORD MOONG::Initialization::Write(const std::string app_name, const std::string key_name, int value, const std::string file_path)
 {
-	std::ostringstream convert_string;
-	convert_string << value;
-
-	try
-	{
-		return MOONG::Initialization::Write(app_name, key_name, convert_string.str(), file_path);
-	}
-	catch (const std::exception& exception)
-	{
-		throw exception;
-	}
+	return MOONG::Initialization::Write(app_name, key_name, MOONG::ConvertDataType::int_to_string(value), file_path);
 }
 
 
