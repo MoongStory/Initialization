@@ -11,6 +11,11 @@
 #include <wtypes.h>
 #include <vector>
 
+#if _MSC_VER <= 1200
+	// Visual Studio 6.0에서만 발생.
+	#pragma warning(disable: 4786) // identifier was truncated to '255' characters in the browser information.
+#endif
+
 namespace MOONG
 {
 	namespace INITIALIZATION
@@ -39,11 +44,11 @@ namespace MOONG
 
 		// 반환 값
 		//		문자열 길이.
-		static DWORD Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, std::string& output, DWORD length_output, const std::string file_path) noexcept(false);
-		static DWORD Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, char* output, DWORD length_output, const std::string file_path) noexcept(false);
-		static DWORD Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, wchar_t* output, DWORD length_output, const std::string file_path) noexcept(false);
-		static DWORD Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, std::string delimit, std::vector<std::string>& output, DWORD length_output, const std::string file_path) noexcept(false);
-		static DWORD Read(const std::string app_name, const std::string key_name, const int default_value_on_failure, int* output, const std::string file_path) noexcept(false);
+		static DWORD Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, std::string& output, DWORD length_output, const std::string file_path);
+		static DWORD Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, char* output, DWORD length_output, const std::string file_path);
+		static DWORD Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, wchar_t* output, DWORD length_output, const std::string file_path);
+		static DWORD Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, std::string delimit, std::vector<std::string>& output, DWORD length_output, const std::string file_path);
+		static DWORD Read(const std::string app_name, const std::string key_name, const int default_value_on_failure, int* output, const std::string file_path);
 	protected:
 	private:
 	};

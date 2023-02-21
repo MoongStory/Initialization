@@ -18,12 +18,12 @@ DWORD MOONG::Initialization::Write(const std::string app_name, const std::string
 
 DWORD MOONG::Initialization::Write(const std::string app_name, const std::string key_name, int value, const std::string file_path)
 {
-	return MOONG::Initialization::Write(app_name, key_name, MOONG::ConvertDataType::int_to_string(value), file_path);
+	return MOONG::Initialization::Write(app_name, key_name, MOONG::ConvertDataType::toString(value), file_path);
 }
 
 
 
-DWORD MOONG::Initialization::Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, std::string& output, DWORD length_output, const std::string file_path) noexcept(false)
+DWORD MOONG::Initialization::Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, std::string& output, DWORD length_output, const std::string file_path)
 {
 	try
 	{
@@ -43,7 +43,7 @@ DWORD MOONG::Initialization::Read(const std::string app_name, const std::string 
 	}
 }
 
-DWORD MOONG::Initialization::Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, char* output, DWORD length_output, const std::string file_path) noexcept(false)
+DWORD MOONG::Initialization::Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, char* output, DWORD length_output, const std::string file_path)
 {
 	try
 	{
@@ -72,7 +72,7 @@ DWORD MOONG::Initialization::Read(const std::string app_name, const std::string 
 	}
 }
 
-DWORD MOONG::Initialization::Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, wchar_t* output, DWORD length_output, const std::string file_path) noexcept(false)
+DWORD MOONG::Initialization::Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, wchar_t* output, DWORD length_output, const std::string file_path)
 {
 	try
 	{
@@ -92,7 +92,7 @@ DWORD MOONG::Initialization::Read(const std::string app_name, const std::string 
 	}
 }
 
-DWORD MOONG::Initialization::Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, std::string delimiters, std::vector<std::string>& output, DWORD length_output, const std::string file_path) noexcept(false)
+DWORD MOONG::Initialization::Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, std::string delimiters, std::vector<std::string>& output, DWORD length_output, const std::string file_path)
 {
 	try
 	{
@@ -137,7 +137,7 @@ DWORD MOONG::Initialization::Read(const std::string app_name, const std::string 
 	}
 }
 
-DWORD MOONG::Initialization::Read(const std::string app_name, const std::string key_name, const int default_value_on_failure, int* output, const std::string file_path) noexcept(false)
+DWORD MOONG::Initialization::Read(const std::string app_name, const std::string key_name, const int default_value_on_failure, int* output, const std::string file_path)
 {
 	try
 	{
