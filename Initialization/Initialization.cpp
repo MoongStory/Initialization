@@ -6,7 +6,7 @@
 // https://github.com/MoongStory/ConvertDataType
 #include "../../ConvertDataType/ConvertDataType/ConvertDataType.h"
 
-DWORD MOONG::Initialization::Write(const std::string app_name, const std::string key_name, const std::string value, const std::string file_path)
+DWORD MOONG::Initialization::write(const std::string app_name, const std::string key_name, const std::string value, const std::string file_path)
 {
 	if (WritePrivateProfileStringA(app_name.c_str(), key_name.c_str(), value.c_str(), file_path.c_str()) == 0)
 	{
@@ -16,20 +16,20 @@ DWORD MOONG::Initialization::Write(const std::string app_name, const std::string
 	return EXIT_SUCCESS;
 }
 
-DWORD MOONG::Initialization::Write(const std::string app_name, const std::string key_name, int value, const std::string file_path)
+DWORD MOONG::Initialization::write(const std::string app_name, const std::string key_name, int value, const std::string file_path)
 {
-	return MOONG::Initialization::Write(app_name, key_name, MOONG::ConvertDataType::toString(value), file_path);
+	return MOONG::Initialization::write(app_name, key_name, MOONG::ConvertDataType::to_string(value), file_path);
 }
 
 
 
-DWORD MOONG::Initialization::Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, std::string& output, DWORD length_output, const std::string file_path)
+DWORD MOONG::Initialization::read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, std::string& output, DWORD length_output, const std::string file_path)
 {
 	try
 	{
 		char* buf = new char[length_output];
 
-		DWORD return_value = MOONG::Initialization::Read(app_name, key_name, default_string_on_failure, buf, length_output, file_path);
+		DWORD return_value = MOONG::Initialization::read(app_name, key_name, default_string_on_failure, buf, length_output, file_path);
 
 		output = buf;
 
@@ -43,7 +43,7 @@ DWORD MOONG::Initialization::Read(const std::string app_name, const std::string 
 	}
 }
 
-DWORD MOONG::Initialization::Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, char* output, DWORD length_output, const std::string file_path)
+DWORD MOONG::Initialization::read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, char* output, DWORD length_output, const std::string file_path)
 {
 	try
 	{
@@ -72,13 +72,13 @@ DWORD MOONG::Initialization::Read(const std::string app_name, const std::string 
 	}
 }
 
-DWORD MOONG::Initialization::Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, wchar_t* output, DWORD length_output, const std::string file_path)
+DWORD MOONG::Initialization::read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, wchar_t* output, DWORD length_output, const std::string file_path)
 {
 	try
 	{
 		char* buf = new char[length_output];
 
-		DWORD return_value = MOONG::Initialization::Read(app_name, key_name, default_string_on_failure, buf, length_output, file_path);
+		DWORD return_value = MOONG::Initialization::read(app_name, key_name, default_string_on_failure, buf, length_output, file_path);
 
 		StringCchCopyW(output, length_output, MOONG::ConvertDataType::string_to_wstring(buf).c_str());
 
@@ -92,14 +92,14 @@ DWORD MOONG::Initialization::Read(const std::string app_name, const std::string 
 	}
 }
 
-DWORD MOONG::Initialization::Read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, std::string delimiters, std::vector<std::string>& output, DWORD length_output, const std::string file_path)
+DWORD MOONG::Initialization::read(const std::string app_name, const std::string key_name, const std::string default_string_on_failure, std::string delimiters, std::vector<std::string>& output, DWORD length_output, const std::string file_path)
 {
 	try
 	{
 		output.clear();
 
 		std::string buf;
-		DWORD return_value = MOONG::Initialization::Read(app_name, key_name, default_string_on_failure, buf, length_output, file_path);
+		DWORD return_value = MOONG::Initialization::read(app_name, key_name, default_string_on_failure, buf, length_output, file_path);
 
 		char* token = NULL;
 #if _MSC_VER > 1200
@@ -137,7 +137,7 @@ DWORD MOONG::Initialization::Read(const std::string app_name, const std::string 
 	}
 }
 
-DWORD MOONG::Initialization::Read(const std::string app_name, const std::string key_name, const int default_value_on_failure, int* output, const std::string file_path)
+DWORD MOONG::Initialization::read(const std::string app_name, const std::string key_name, const int default_value_on_failure, int* output, const std::string file_path)
 {
 	try
 	{
@@ -146,7 +146,7 @@ DWORD MOONG::Initialization::Read(const std::string app_name, const std::string 
 		std::ostringstream default_string_on_failure;
 		default_string_on_failure << default_value_on_failure;
 
-		DWORD return_value = MOONG::Initialization::Read(app_name.c_str(), key_name.c_str(), default_string_on_failure.str(), buf, 64, file_path.c_str());
+		DWORD return_value = MOONG::Initialization::read(app_name.c_str(), key_name.c_str(), default_string_on_failure.str(), buf, 64, file_path.c_str());
 
 		for (unsigned int i = 0; i < buf.length(); i++)
 		{
